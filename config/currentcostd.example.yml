@@ -18,3 +18,9 @@ pachube:
 http:
   enabled: false
   port: 3500
+
+# Enable this section to post data to www.carbondiet.org
+carbondiet:
+  enabled: false
+  username: your_carbondiet_username_goes_here
+  password: your_carbondiet_password_goes_here
