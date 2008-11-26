@@ -52,11 +52,11 @@ module CurrentCostDaemon
         eeml << data
         eeml[0].value = watts
         eeml.set_updated!
-        # Post
-        post = Net::HTTP::Put.new("/feeds/#{@feed}.xml")
-        post.body = eeml.to_eeml
-        post['X-PachubeApiKey'] = @api_key
-        @http.request(post)
+        # Put data
+        put = Net::HTTP::Put.new("/feeds/#{@feed}.xml")
+        put.body = eeml.to_eeml
+        put['X-PachubeApiKey'] = @api_key
+        @http.request(put)
       end
     
     end  
