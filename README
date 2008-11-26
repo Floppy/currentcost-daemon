@@ -19,8 +19,10 @@ Homepage: http://github.com/Floppy/currentcost-daemon
 
 == REQUIREMENTS
 
-Floppy-currentcost >= 0.2.3
+Floppy-currentcost >= 0.2.4
 Floppy-eeml >= 0.1.0
+daemons >= 1.0.10
+builder >= 2.1.2
 
 == USAGE
 

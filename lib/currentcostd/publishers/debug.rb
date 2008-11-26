@@ -34,11 +34,8 @@ module CurrentCostDaemon
       end
 
       def update(reading)
-        # Add all channels to get real figure
-        watts = 0 
-        reading.channels.each { |c| watts += c[:watts] }
         # Print out measurement
-        puts "New reading received: #{watts} W"
+        puts "New reading received: #{reading.total_watts} W"
       end
     
     end  

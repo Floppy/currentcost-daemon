@@ -41,16 +41,13 @@ module CurrentCostDaemon
       end
       
       def update(reading)
-        # Add all channels to get real figure
-        watts = 0 
-        reading.channels.each { |c| watts += c[:watts] }
         # Create EEML document
         eeml = EEML::Environment.new
         # Create data object
         data = EEML::Data.new(0)
         data.unit = EEML::Unit.new("Watts", :symbol => 'W', :type => :derivedSI)
         eeml << data
-        eeml[0].value = watts
+        eeml[0].value = reading.total_watts
         eeml.set_updated!
         # Put data
         put = Net::HTTP::Put.new("/feeds/#{@feed}.xml")

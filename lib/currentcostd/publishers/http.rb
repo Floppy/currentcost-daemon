@@ -84,8 +84,7 @@ module CurrentCostDaemon
           @@reading = reading
           @@updated_at = Time.now
           # Add all channels to get real total
-          @@total = 0
-          @@reading.channels.each { |c| @@total += c[:watts] }
+          @@total = @@reading.total_watts
           # Store history if available
           @@history = @@reading.history if @@reading.history
         end
