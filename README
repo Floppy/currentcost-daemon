@@ -1,0 +1,31 @@
+== currentcostd
+
+A system daemon for monitoring and publishing data from a CurrentCost energy meter
+(http://www.currentcost.com)
+
+Licensed under the MIT license (See COPYING file for details)
+
+Author: James Smith (james@floppy.org.uk / http://www.floppy.org.uk)
+
+Homepage: http://github.com/Floppy/currentcost-daemon
+
+== INSTALLATION
+
+1) Enable gems from github, if you haven't already done so (rubygems >= 1.2): 
+    > sudo gem sources -a http://gems.github.com
+
+2) Install gem
+    > sudo gem install Floppy-currentcostd
+
+== REQUIREMENTS
+
+Floppy-currentcost >= 0.2.3
+Floppy-eeml >= 0.1.0
+
+== USAGE
+
+1) Copy config/currentcostd.example.yml to currentcostd.yml or /etc/currentcost.yml
+
+2) Edit the settings in your new currentcostd.yml
+
+3) Run "currentcostd start" to start the daemon.
