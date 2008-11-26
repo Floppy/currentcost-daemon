@@ -13,3 +13,8 @@ pachube:
 # Enable this to dump meter data to standard output
 debug:
   enabled: true
+
+# Enable this to run a web server which shows the data
+http:
+  enabled: true
+  port: 3500
