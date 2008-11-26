@@ -4,17 +4,17 @@
 currentcost:
   port: /dev/ttyS0
 
-# Enable this to publish to a feed on www.pachube.com
-pachube:
-  enabled: false
-  feed_id: your_pachube_feed_id_goes_here
-  api_key: your_pachube_api_key_goes_here
-
 # Enable this to dump meter data to standard output
 debug:
   enabled: true
 
-# Enable this to run a web server which shows the data
+# Enable this to publish to a feed on www.pachube.com
+pachube:
+  enabled: false
+  feed_id: your_pachube_feed_id_goes_here (e.g. 123)
+  api_key: your_pachube_api_key_goes_here
+
+# Enable this to run a web server which you can look at in a browser
 http:
-  enabled: true
+  enabled: false
   port: 3500
