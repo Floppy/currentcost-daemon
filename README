@@ -24,8 +24,8 @@ Floppy-eeml >= 0.1.0
 
 == USAGE
 
-1) Copy config/currentcostd.example.yml to currentcostd.yml or /etc/currentcost.yml
+1) Copy config/currentcostd.example.yml to /etc/currentcost.yml
 
 2) Edit the settings in your new currentcostd.yml
 
-3) Run "currentcostd start" to start the daemon.
+3) Run "sudo currentcostd start" to start the daemon.

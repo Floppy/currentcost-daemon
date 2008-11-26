@@ -24,5 +24,44 @@
 
 require 'rubygems'
 require 'daemons'
+require 'currentcost/meter'
 
-Daemons.run("#{File.dirname(__FILE__)}/currentcostd.rb")
+# Load config
+config  = nil
+config_files = [
+  "/etc/currentcostd.yml",
+  File.join(File.dirname(__FILE__), '/../config/currentcostd.yml')
+]
+config_files.each do |c|
+  if File.exists?(c)
+    config = YAML.load_file(c)
+    break
+  end
+end
+if config.nil?
+  puts "Couldn't load configuration from " + config_files.join(" or ")
+  exit
+end
+
+# Require all available publishers
+Dir.glob(File.join(File.dirname(__FILE__), '/../lib/currentcostd/publishers/*.rb')).each { |f| require f }
+
+Daemons.run_proc('currentcostd', :dir_mode => :system) do
+
+  # Create meter object
+  meter = CurrentCost::Meter.new config['currentcost']['port']
+
+  # Register publishers with meter if their configuration sections are defined
+  CurrentCostDaemon::Publishers.constants.each do |publisher|
+    pub_class = CurrentCostDaemon::Publishers.const_get(publisher)
+    if config[pub_class.config_section] && config[pub_class.config_section]['enabled'] == true
+      meter.add_observer(pub_class.new(config))
+    end
+  end
+
+  # Just let it run
+  while (true)
+    sleep(30)
+  end
+
+end

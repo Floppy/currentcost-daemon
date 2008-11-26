@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.files += ["lib/currentcostd/publishers/debug.rb", "lib/currentcostd/publishers/pachube.rb", "lib/currentcostd/publishers/http.rb"]
   s.files += ["config/currentcostd.example.yml"]
   s.files += ["bin/currentcostd"]
-  s.files += ["bin/currentcostd.rb"]
   s.executables = ['currentcostd']
   s.add_dependency('Floppy-currentcost', [">= 0.2.3"])
   s.add_dependency('Floppy-eeml', [">= 0.1.0"])
+  s.add_dependency('daemons', [">= 1.0.10"])
 end
