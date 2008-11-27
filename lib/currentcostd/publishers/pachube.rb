@@ -36,8 +36,6 @@ module CurrentCostDaemon
       def initialize(config)
         @feed = config['pachube']['feed_id']
         @api_key = config['pachube']['api_key']
-        @http = Net::HTTP.new('www.pachube.com')
-        @http.start
       end
       
       def update(reading)
@@ -53,7 +51,9 @@ module CurrentCostDaemon
         put = Net::HTTP::Put.new("/feeds/#{@feed}.xml")
         put.body = eeml.to_eeml
         put['X-PachubeApiKey'] = @api_key
-        @http.request(put)
+        http = Net::HTTP.new('www.pachube.com')
+        http.start
+        http.request(put)
       rescue
         puts "Something went wrong (pachube)!"
         puts $!.inspect

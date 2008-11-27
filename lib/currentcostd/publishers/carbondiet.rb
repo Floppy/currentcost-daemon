@@ -34,14 +34,12 @@ module CurrentCostDaemon
         @account = config['carbondiet']['account_id']
         @username = config['carbondiet']['username']
         @password = config['carbondiet']['password']
-        @http = Net::HTTP.new('www.carbondiet.org')
-        @http.start
       end
 
       def update(reading)
         # Carbon Diet is daily, so we only want to do something if there is
         # history data, and only once a day, really. Say around 5am, why not.
-        unless reading.history.nil? && reading.hour != 5
+        if !reading.history.nil? && reading.hour == 5
           # Create http post request
           post = Net::HTTP::Post.new("/data_entry/electricity/#{@account}/currentcost")
           post.basic_auth(@username, @password)
@@ -59,11 +57,14 @@ module CurrentCostDaemon
             end
           end
           # Send data
-          @http.request(post)
+          http = Net::HTTP.new('www.carbondiet.org')
+          http.start
+          http.request(post)
         end
       rescue
         puts "Something went wrong (carbondiet)!"
         puts $!.inspect
+        nil
       end
     
     end  
