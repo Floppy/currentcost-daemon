@@ -54,6 +54,9 @@ module CurrentCostDaemon
         put.body = eeml.to_eeml
         put['X-PachubeApiKey'] = @api_key
         @http.request(put)
+      rescue
+        puts "Something went wrong (pachube)!"
+        puts $!.inspect
       end
     
     end  

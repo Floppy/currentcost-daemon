@@ -36,6 +36,9 @@ module CurrentCostDaemon
       def update(reading)
         # Print out measurement
         puts "New reading received: #{reading.total_watts} W"
+      rescue
+        puts "Something went wrong (debug)!"
+        puts $!.inspect
       end
     
     end  

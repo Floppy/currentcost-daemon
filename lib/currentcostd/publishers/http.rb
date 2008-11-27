@@ -103,6 +103,9 @@ module CurrentCostDaemon
 
       def update(reading)
         Servlet.update(reading)
+      rescue
+        puts "Something went wrong (http)!"
+        puts $!.inspect
       end
     
     end  
