@@ -3,6 +3,7 @@
 
 currentcost:
   port: /dev/ttyS0
+  cc128: true
 
 # Enable this to dump meter data to standard output
 debug:
@@ -24,3 +25,12 @@ carbondiet:
   enabled: false
   username: your_carbondiet_username_goes_here
   password: your_carbondiet_password_goes_here
+
+# Enable this section to send data directly to an AMEE profile
+# The profile with the specified UID should already exist.
+amee:
+  enabled: false
+  server: dev.amee.com
+  username: your_amee_username_goes_here
+  password: your_amee_password_goes_here
+  profile_uid: ABC123DEF456

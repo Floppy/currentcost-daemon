@@ -50,11 +50,11 @@ module CurrentCostDaemon
     <h2>Hourly</h2>
     <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:hours].reverse.delete_if{|x|x.nil?}.join(',')}&chds=0,#{@@history[:hours].delete_if{|x|x.nil?}.max}'/>
     <h2>Daily</h2>
-    <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:days].reverse.map{|x| x.nil? ? 0 : x}.join(',')}&chds=0,#{@@history[:days].delete_if{|x|x.nil?}.max}'/>
+    <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:days].reverse.map{|x| x.nil? ? 0 : x[0]}.join(',')}&chds=0,#{@@history[:days].delete_if{|x|x.nil?}.max}'/>
     <h2>Monthly</h2>
-    <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:months].reverse.map{|x| x.nil? ? 0 : x}.join(',')}&chds=0,#{@@history[:months].delete_if{|x|x.nil?}.max}'/>
+    <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:months].reverse.map{|x| x.nil? ? 0 : x[0]}.join(',')}&chds=0,#{@@history[:months].delete_if{|x|x.nil?}.max}'/>
     <h2>Yearly</h2>
-    <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:years].reverse.map{|x| x.nil? ? 0 : x}.join(',')}&chds=0,#{@@history[:years].delete_if{|x|x.nil?}.max}'/>
+    <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:years].reverse.map{|x| x.nil? ? 0 : x[0]}.join(',')}&chds=0,#{@@history[:years].delete_if{|x|x.nil?}.max}'/>
   </body>
 </html>"
           elsif request.query['format'] == "eeml"

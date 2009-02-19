@@ -20,51 +20,50 @@
 #
 # http://www.opensource.org/licenses/mit-license.php
 
+require 'amee'
+
 module CurrentCostDaemon
 
   module Publishers
 
-    class CarbonDiet
+    class AMEEPublisher
     
       def self.config_section
-        'carbondiet'
+        'amee'
       end
     
       def initialize(config)
-        @account = config['carbondiet']['account_id']
-        @username = config['carbondiet']['username']
-        @password = config['carbondiet']['password']
+        @profile_uid = config['amee']['profile_uid']
+        @last_minute = Time.now.min - 1
+        # Open AMEE connection
+        server = config['amee']['server']
+        username = config['amee']['username']
+        password = config['amee']['password']
+        @amee = AMEE::Connection.new(server, username, password)
+    	  @amee.authenticate
       end
 
       def update(reading)
-        # Carbon Diet is daily, so we only want to do something if there is
-        # history data, and only once a day, really. Say around 5am, why not.
-        if !reading.history.nil? && reading.hour == 7
-          # Create http post request
-          post = Net::HTTP::Post.new("/data_entry/electricity/#{@account}/currentcost")
-          post.basic_auth(@username, @password)
-          # Add XML document
-          xml = Builder::XmlMarkup.new
-          xml.instruct!
-          post.body = xml.data do
-            reading.history[:days].each_index do |i|
-              unless reading.history[:days][i].nil?
-                xml.entry do
-                  xml.date Date.today - i
-                  xml.value reading.history[:days][i][0]
-                end
-              end
-            end
-          end
-          # Send data
-          http = Net::HTTP.new('www.carbondiet.org')
-          http.start
-          http.request(post)
+        # Let's put data into AMEE every minute.
+        if Time.now.min != @last_minute
+          # Store time
+          @last_minute = Time.now.min
+          # Estimate kwh figure from current power usage
+          kwh = (reading.total_watts / 1000.0)
+          # Add item to AMEE
+	        AMEE::Profile::Item.create_without_category(@amee, 
+			      "/profiles/#{@profile_uid}/home/energy/quantity", 
+			      "CDC2A0BA8DF3", 
+			      :start_date => Time.now, 
+			      :end_date => Time.now + 60, 
+			      :energyConsumption => kwh, 
+			      :energyConsumptionUnit => "kWh", 
+			      :energyConsumptionPerUnit => "h", 
+			      :name => "currentcost")
         end
       rescue
-        puts "Something went wrong (carbondiet)!"
+        puts "Something went wrong (AMEE)!"
         puts $!.inspect
-        nil
       end
     
     end  

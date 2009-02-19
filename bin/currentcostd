@@ -49,7 +49,7 @@ Dir.glob(File.join(File.dirname(__FILE__), '/../lib/currentcostd/publishers/*.rb
 Daemons.run_proc('currentcostd', :dir_mode => :system) do
 
   # Create meter object
-  meter = CurrentCost::Meter.new config['currentcost']['port']
+  meter = CurrentCost::Meter.new config['currentcost']['port'], :cc128 => config['currentcost']['cc128']
 
   # Register publishers with meter if their configuration sections are defined
   CurrentCostDaemon::Publishers.constants.each do |publisher|
