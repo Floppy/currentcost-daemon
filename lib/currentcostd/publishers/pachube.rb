@@ -48,12 +48,15 @@ module CurrentCostDaemon
         eeml[0].value = reading.total_watts
         eeml.set_updated!
         # Put data
+        puts "Storing in Pachube..."
         put = Net::HTTP::Put.new("/feeds/#{@feed}.xml")
         put.body = eeml.to_eeml
         put['X-PachubeApiKey'] = @api_key
         http = Net::HTTP.new('www.pachube.com')
         http.start
-        http.request(put)
+        response = http.request(put)
+        raise response.code if response.code != "200"
+        puts "done"
       rescue
         puts "Something went wrong (pachube)!"
         puts $!.inspect
