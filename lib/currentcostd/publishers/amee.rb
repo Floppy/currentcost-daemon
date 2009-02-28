@@ -50,16 +50,19 @@ module CurrentCostDaemon
           @last_minute = Time.now.min
           # Estimate kwh figure from current power usage
           kwh = (reading.total_watts / 1000.0)
+          puts "Storing in AMEE..."
           # Add item to AMEE
 	        AMEE::Profile::Item.create_without_category(@amee, 
 			      "/profiles/#{@profile_uid}/home/energy/quantity", 
-			      "CDC2A0BA8DF3", 
+			      "CDC2A0BA8DF3",
 			      :start_date => Time.now, 
 			      :end_date => Time.now + 60, 
 			      :energyConsumption => kwh, 
 			      :energyConsumptionUnit => "kWh", 
 			      :energyConsumptionPerUnit => "h", 
-			      :name => "currentcost")
+			      :name => "currentcost",
+			      :get_item => false)
+          puts "done"
         end
       rescue
         puts "Something went wrong (AMEE)!"

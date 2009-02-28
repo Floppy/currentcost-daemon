@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files += ["bin/currentcostd"]
   s.executables = ['currentcostd']
   s.add_dependency('Floppy-currentcost', [">= 0.3.2"])
-  s.add_dependency('Floppy-amee', [">=2.0.1"])
+  s.add_dependency('Floppy-amee', [">=2.0.5"])
   s.add_dependency('Floppy-eeml', [">= 0.1.0"])
   s.add_dependency('daemons', [">= 1.0.10"])
   s.add_dependency('builder', [">= 2.1.2"])
