@@ -20,7 +20,7 @@
 #
 # http://www.opensource.org/licenses/mit-license.php
 
-require 'amee'
+require 'net/http'
 
 module CurrentCostDaemon
 
@@ -36,11 +36,9 @@ module CurrentCostDaemon
         @profile_uid = config['amee']['profile_uid']
         @last_minute = Time.now.min - 1
         # Open AMEE connection
-        server = config['amee']['server']
-        username = config['amee']['username']
-        password = config['amee']['password']
-        @amee = AMEE::Connection.new(server, username, password)
-    	  @amee.authenticate
+        @server = config['amee']['server']
+        @username = config['amee']['username']
+        @password = config['amee']['password']
       end
 
       def update(reading)
@@ -50,18 +48,27 @@ module CurrentCostDaemon
           @last_minute = Time.now.min
           # Estimate kwh figure from current power usage
           kwh = (reading.total_watts / 1000.0)
+          # Create POST options
+          options = {
+            :dataItemUid => "CDC2A0BA8DF3",
+			      :startDate => Time.now.xmlschema,
+			      :endDate => (Time.now + 60).xmlschema,
+			      :energyConsumption => kwh,
+			      :energyConsumptionUnit => "kWh",
+			      :energyConsumptionPerUnit => "h",
+			      :name => "currentcost"
+          }
           puts "Storing in AMEE..."
-          # Add item to AMEE
-	        AMEE::Profile::Item.create_without_category(@amee, 
-			      "/profiles/#{@profile_uid}/home/energy/quantity", 
-			      "CDC2A0BA8DF3",
-			      :start_date => Time.now, 
-			      :end_date => Time.now + 60, 
-			      :energyConsumption => kwh, 
-			      :energyConsumptionUnit => "kWh", 
-			      :energyConsumptionPerUnit => "h", 
-			      :name => "currentcost",
-			      :get_item => false)
+          # Post data to AMEE
+          req = Net::HTTP::Post.new("/profiles/#{@profile_uid}/home/energy/quantity")
+          req.basic_auth @username, @password
+          req['Accept'] = "application/xml"
+          req.set_form_data(options)
+          http = Net::HTTP.new(@server)
+          http.start do
+            response = http.request(req)
+            raise response.body if response.code != "200"
+          end
           puts "done"
         end
       rescue
