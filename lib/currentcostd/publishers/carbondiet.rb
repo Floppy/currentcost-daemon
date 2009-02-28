@@ -40,6 +40,7 @@ module CurrentCostDaemon
         # Carbon Diet is daily, so we only want to do something if there is
         # history data, and only once a day, really. Say around 5am, why not.
         if !reading.history.nil? && reading.hour == 7
+          puts "Storing in Carbon Diet..."
           # Create http post request
           post = Net::HTTP::Post.new("/data_entry/electricity/#{@account}/currentcost")
           post.basic_auth(@username, @password)
@@ -60,6 +61,7 @@ module CurrentCostDaemon
           http = Net::HTTP.new('www.carbondiet.org')
           http.start
           http.request(post)
+          puts "done"
         end
       rescue
         puts "Something went wrong (carbondiet)!"
