@@ -39,21 +39,25 @@ module CurrentCostDaemon
             response['Content-Type'] = "text/html"
             response.body = "
 <html>
+  <head>
+    <meta http-equiv='refresh' content='6' />
+    <meta name='viewport' content='width=420'/> 
+  </head>
   <body>
     <div style='float:right'>
       <a title='EEML' href='/?format=eeml'><span style='border:1px solid;border-color:#9C9 #030 #030 #696;padding:0 3px;font:bold 10px verdana,sans-serif;color:#FFF;background:#090;text-decoration:none;margin:0;'>EEML</span></a>
       <a title='XML' href='/?format=xml'><span style='border:1px solid;border-color:#FC9 #630 #330 #F96;padding:0 3px;font:bold 10px verdana,sans-serif;color:#FFF;background:#F60;text-decoration:none;margin:0;'>XML</span></a>
     </div>
-    <h1>Current Total</h1>
-    <p>#{@@total} Watts</p>
-    <h1>History</h1>
-    <h2>Hourly</h2>
+    <h1>#{@@total} Watts</h2>
+    <p>updated at #{@@updated_at}</p>
+    <h2>History</h2>
+    <h3>Hourly</h3>
     <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:hours].reverse.delete_if{|x|x.nil?}.join(',')}&chds=0,#{@@history[:hours].delete_if{|x|x.nil?}.max}'/>
-    <h2>Daily</h2>
+    <h3>Daily</h3>
     <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:days].reverse.map{|x| x.nil? ? 0 : x[0]}.join(',')}&chds=0,#{@@history[:days].delete_if{|x|x.nil?}.max}'/>
-    <h2>Monthly</h2>
+    <h3>Monthly</h3>
     <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:months].reverse.map{|x| x.nil? ? 0 : x[0]}.join(',')}&chds=0,#{@@history[:months].delete_if{|x|x.nil?}.max}'/>
-    <h2>Yearly</h2>
+    <h3>Yearly</h3>
     <img src='http://chart.apis.google.com/chart?cht=lc&chs=400x125&chd=t:#{@@history[:years].reverse.map{|x| x.nil? ? 0 : x[0]}.join(',')}&chds=0,#{@@history[:years].delete_if{|x|x.nil?}.max}'/>
   </body>
 </html>"
@@ -102,7 +106,9 @@ module CurrentCostDaemon
       end
 
       def update(reading)
+        puts "Updating HTTP publisher..."
         Servlet.update(reading)
+        puts "done"
       rescue
         puts "Something went wrong (http)!"
         puts $!.inspect
