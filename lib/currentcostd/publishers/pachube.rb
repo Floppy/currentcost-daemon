@@ -49,7 +49,7 @@ module CurrentCostDaemon
         eeml.set_updated!
         # Put data
         puts "Storing in Pachube..."
-        put = Net::HTTP::Put.new("/feeds/#{@feed}.xml")
+        put = Net::HTTP::Put.new("/api/#{@feed}.xml")
         put.body = eeml.to_eeml
         put['X-PachubeApiKey'] = @api_key
         http = Net::HTTP.new('www.pachube.com')
