@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.name = "currentcostd"
-  s.version = "1.3.0"
-  s.date = "2009-02-19"
+  s.version = "1.4.0"
+  s.date = "2009-03-28"
   s.summary = "A system daemon for monitoring and publishing currentcost data"
   s.email = "james@floppy.org.uk"
   s.homepage = "http://github.com/Floppy/currentcost-daemon"
   s.has_rdoc = false
   s.authors = ["James Smith"]
   s.files = ["README", "COPYING"]
-  s.files += ["lib/currentcostd/publishers/debug.rb", "lib/currentcostd/publishers/pachube.rb", "lib/currentcostd/publishers/http.rb", "lib/currentcostd/publishers/carbondiet.rb", "lib/currentcostd/publishers/amee.rb"]
+  s.files += ["lib/currentcostd/publishers/debug.rb", "lib/currentcostd/publishers/pachube.rb", "lib/currentcostd/publishers/http.rb", "lib/currentcostd/publishers/carbondiet.rb", "lib/currentcostd/publishers/amee.rb", "lib/currentcostd/publishers/twitter.rb"]
   s.files += ["config/currentcostd.example.yml"]
   s.files += ["bin/currentcostd"]
   s.executables = ['currentcostd']
