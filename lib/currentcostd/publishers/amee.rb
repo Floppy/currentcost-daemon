@@ -67,7 +67,7 @@ module CurrentCostDaemon
           http = Net::HTTP.new(@server)
           http.start do
             response = http.request(req)
-            raise response.body if response.code != "200"
+            raise response.body if (response.code != "200" && response.code != "201")
           end
           puts "done"
         end
