@@ -35,10 +35,20 @@ module CurrentCostDaemon
       def initialize(config)
         @profile_uid = config['amee']['profile_uid']
         @last_minute = Time.now.min - 1
-        # Open AMEE connection
+        # Store AMEE connection details
         @server = config['amee']['server']
         @username = config['amee']['username']
         @password = config['amee']['password']
+	# Get electricity UID for later
+	req = Net::HTTP::Get.new("/data/home/energy/quantity/drill?type=electricity")
+	req.basic_auth @username, @password
+	req['Accept'] = "application/xml"
+	http = Net::HTTP.new(@server)
+	http.start do
+		response = http.request(req)
+		raise response.body if (response.code != "200" && response.code != "201")
+		@uid = response.body.match("<Choices><Name>uid</Name><Choices><Choice><Name>.*?</Name><Value>(.*?)</Value></Choice></Choices></Choices>")[1]
+	end
       end
 
       def update(reading)
@@ -49,8 +59,9 @@ module CurrentCostDaemon
           # Estimate kwh figure from current power usage
           kwh = (reading.total_watts / 1000.0)
           # Create POST options
+          raise "No Data Item UID found!" if @uid.nil?
           options = {
-            :dataItemUid => "CDC2A0BA8DF3",
+            :dataItemUid => @uid,
 			      :startDate => Time.now.xmlschema,
 			      :endDate => (Time.now + 60).xmlschema,
 			      :energyConsumption => kwh,
