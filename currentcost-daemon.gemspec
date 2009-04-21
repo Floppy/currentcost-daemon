@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "currentcostd"
-  s.version = "1.4.0"
-  s.date = "2009-03-28"
+  s.version = "1.4.1"
+  s.date = "2009-04-21"
   s.summary = "A system daemon for monitoring and publishing currentcost data"
   s.email = "james@floppy.org.uk"
   s.homepage = "http://github.com/Floppy/currentcost-daemon"
