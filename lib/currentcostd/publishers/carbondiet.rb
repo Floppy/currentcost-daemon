@@ -38,8 +38,14 @@ module CurrentCostDaemon
 
       def update(reading)
         # Carbon Diet is daily, so we only want to do something if there is
-        # history data, and only once a day, really. Say around 5am, why not.
-        if !reading.history.nil? && reading.hour == 7
+        # history data, and only once a day, ideally. If it's 3am, upload history 
+        # if we have it.
+        # This is horribly hacky, it post every time there is day history during
+        # this hour. Also the carbondiet code at the other end is hacky.
+        # All this needs improving.
+        puts reading.to_yaml
+        puts "stuff"
+        if !reading.history.nil? && reading.hour == 3
           puts "Storing in Carbon Diet..."
           # Create http post request
           post = Net::HTTP::Post.new("/data_entry/electricity/#{@account}/currentcost")

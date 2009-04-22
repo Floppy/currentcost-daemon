@@ -34,3 +34,10 @@ amee:
   username: your_amee_username_goes_here
   password: your_amee_password_goes_here
   profile_uid: ABC123DEF456
+
+# Enable this section to post to Twitter.
+# This will post once a minute - I don't suggest you use your normal Twitter account ;)
+twitter:
+  enabled: false
+  username: your_twitter_username_goes_here
+  password: your_twitter_password_goes_here

@@ -20,46 +20,46 @@
 #
 # http://www.opensource.org/licenses/mit-license.php
 
-require 'eeml'
-require 'net/http'
+require 'cgi'
 
 module CurrentCostDaemon
 
   module Publishers
 
-    class Pachube
-      
+    class Twitter
+    
       def self.config_section
-        'pachube'
+        'twitter'
+      end
+    
+      def initialize(config)
+        @username = config['twitter']['username']
+        @password = config['twitter']['password']
+        @last_minute = Time.now.min - 1
       end
 
-      def initialize(config)
-        @feed = config['pachube']['feed_id']
-        @api_key = config['pachube']['api_key']
-      end
-      
       def update(reading)
-        # Create EEML document
-        eeml = EEML::Environment.new
-        # Create data object
-        data = EEML::Data.new(0)
-        data.unit = EEML::Unit.new("Watts", :symbol => 'W', :type => :derivedSI)
-        eeml << data
-        eeml[0].value = reading.total_watts
-        eeml.set_updated!
-        # Put data
-        puts "Storing in Pachube..."
-        put = Net::HTTP::Put.new("/api/#{@feed}.xml")
-        put.body = eeml.to_eeml
-        put['X-PachubeApiKey'] = @api_key
-        http = Net::HTTP.new('www.pachube.com')
-        http.start
-        response = http.request(put)
-        raise response.code if response.code != "200"
-        puts "done"
+        # Tweet once a minute
+        if Time.now.min != @last_minute
+          # Store time
+          @last_minute = Time.now.min
+          message = "At the moment, I'm using #{reading.total_watts} watts"
+          # Tweet
+          puts "Tweeting..."
+          req = Net::HTTP::Post.new("/statuses/update.json")
+          req.basic_auth @username, @password
+          req.set_form_data "status" => message
+          http = Net::HTTP.new("twitter.com")
+          http.start do
+            response = http.request(req)
+            raise response.body if (response.code[0] != "2")
+          end
+          puts "done"
+        end
       rescue
-        puts "Something went wrong (pachube)!"
+        puts "Something went wrong (twitter)!"
         puts $!.inspect
+        nil
       end
     
     end  

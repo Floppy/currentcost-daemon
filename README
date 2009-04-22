@@ -31,3 +31,11 @@ builder >= 2.1.2
 2) Edit the settings in your new currentcostd.yml
 
 3) Run "sudo currentcostd start" to start the daemon.
+
+== AVAILABLE PUBLISHERS
+
+ * AMEE (www.amee.cc)
+ * Carbon Diet (www.carbondiet.org)
+ * Pachube (www.pachube.com)
+ * Twitter (www.twitter.com)
+ * Local HTTP server
