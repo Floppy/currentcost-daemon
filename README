@@ -26,7 +26,7 @@ builder >= 2.1.2
 
 == USAGE
 
-1) Copy config/currentcostd.example.yml to /etc/currentcost.yml
+1) Copy config/currentcostd.example.yml to /etc/currentcostd.yml
 
 2) Edit the settings in your new currentcostd.yml
 
