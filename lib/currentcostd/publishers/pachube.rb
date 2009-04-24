@@ -39,6 +39,7 @@ module CurrentCostDaemon
       end
       
       def update(reading)
+        return if reading.total_watts == 0
         # Create EEML document
         eeml = EEML::Environment.new
         # Create data object

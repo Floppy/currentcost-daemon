@@ -52,6 +52,7 @@ module CurrentCostDaemon
       end
 
       def update(reading)
+        return if reading.total_watts == 0
         # Let's put data into AMEE every minute.
         if Time.now.min != @last_minute
           # Store time
@@ -62,12 +63,12 @@ module CurrentCostDaemon
           raise "No Data Item UID found!" if @uid.nil?
           options = {
             :dataItemUid => @uid,
-			      :startDate => Time.now.xmlschema,
-			      :endDate => (Time.now + 60).xmlschema,
-			      :energyConsumption => kwh,
-			      :energyConsumptionUnit => "kWh",
-			      :energyConsumptionPerUnit => "h",
-			      :name => "currentcost"
+		        :startDate => Time.now.xmlschema,
+		        :endDate => (Time.now + 60).xmlschema,
+		        :energyConsumption => kwh,
+		        :energyConsumptionUnit => "kWh",
+		        :energyConsumptionPerUnit => "h",
+		        :name => "currentcost"
           }
           puts "Storing in AMEE..."
           # Post data to AMEE
