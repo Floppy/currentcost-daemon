@@ -39,6 +39,7 @@ module CurrentCostDaemon
       end
 
       def update(reading)
+        return if reading.total_watts == 0
         # Tweet once a minute
         if Time.now.min != @last_minute
           # Store time

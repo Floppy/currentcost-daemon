@@ -35,7 +35,11 @@ module CurrentCostDaemon
 
       def update(reading)
         # Print out measurement
-        puts "New reading received: #{reading.total_watts} W"
+        if reading.total_watts > 0 
+          puts "New reading received: #{reading.total_watts} W"
+        else
+          puts "0 reading received: probably history data"
+        end
       rescue
         puts "Something went wrong (debug)!"
         puts $!.inspect
