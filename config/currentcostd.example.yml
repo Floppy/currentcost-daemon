@@ -30,10 +30,19 @@ carbondiet:
 # The profile with the specified UID should already exist.
 amee:
   enabled: false
-  server: dev.amee.com
+  server: stage.amee.com
   username: your_amee_username_goes_here
   password: your_amee_password_goes_here
   profile_uid: ABC123DEF456
+
+# This publisher submits to a realtime carbon category in AMEE 
+# (currently only in testing)
+amee_realtime:
+  enabled: false
+  server: realtime.stage.amee.com
+  username: your_amee_username_goes_here
+  password: your_amee_password_goes_here
+  profile_uid: ABCD123DEF456
 
 # Enable this section to post to Twitter.
 # This will post once a minute - I don't suggest you use your normal Twitter account ;)
