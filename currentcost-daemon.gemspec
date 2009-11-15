@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "currentcostd"
-  s.version = "1.4.4"
-  s.date = "2009-05-11"
+  s.version = "1.4.5"
+  s.date = "2009-11-15"
   s.summary = "A system daemon for monitoring and publishing currentcost data"
   s.email = "james@floppy.org.uk"
   s.homepage = "http://github.com/Floppy/currentcost-daemon"
@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   s.files += ["config/currentcostd.example.yml"]
   s.files += ["bin/currentcostd"]
   s.executables = ['currentcostd']
-  s.add_dependency('Floppy-currentcost', [">= 0.3.3"])
-  s.add_dependency('Floppy-amee', [">=2.0.5"])
-  s.add_dependency('Floppy-eeml', [">= 0.1.0"])
+  s.add_dependency('currentcost', [">= 0.3.4"])
+  s.add_dependency('amee', [">=2.0.5"])
+  s.add_dependency('eeml-simple', [">= 0.1.1"])
   s.add_dependency('daemons', [">= 1.0.10"])
   s.add_dependency('builder', [">= 2.1.2"])
 end
