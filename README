@@ -11,11 +11,7 @@ Homepage: http://github.com/Floppy/currentcost-daemon
 
 == INSTALLATION
 
-1) Enable gems from gemcutter, if you haven't already done so:
-    > sudo gem install gemcutter
-    > sudo gem tumble
-
-2) Install gem
+1) Install gem
     > sudo gem install currentcostd
 
 == REQUIREMENTS
